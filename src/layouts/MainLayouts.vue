@@ -1,8 +1,8 @@
 <template>
   <div class="app-main-layout">
-    <Navbar/>
-    <Sidebar/>
-    <main class="app-content">
+    <Navbar @toggle="onPage = !onPage"/>
+    <Sidebar :onPage="onPage"/>
+    <main class="app-content" :class="{full: !onPage}">
       <div class="app-page">
         <router-view/>
       </div>
@@ -19,6 +19,11 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 export default {
+  data() {
+    return{
+      onPage: true
+    }
+  },
   name: "MainLayouts.vue",
   components: {Sidebar, Navbar}
 }

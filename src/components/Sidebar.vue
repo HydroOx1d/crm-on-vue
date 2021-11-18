@@ -1,5 +1,5 @@
 <template>
-  <ul class="sidenav app-sidenav open">
+  <ul class="sidenav app-sidenav" :class="{open: onPage}">
     <router-link
       tag="li"
       v-for="link of links"
@@ -16,6 +16,11 @@
 <script>
 export default {
   name: "Sidebar",
+  props: {
+    onPage: {
+      type: Boolean,
+    }
+  },
   data() {
     return {
       links: [
