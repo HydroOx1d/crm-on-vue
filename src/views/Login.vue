@@ -1,24 +1,26 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submit">
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
         <input
             id="email"
             type="text"
-            class="validate"
+            v-model.trim="email"
+            :class="{invalid: (v$.email.$invalid && v$.email.required)}"
         >
         <label for="email">Email</label>
-        <small class="helper-text invalid">Email</small>
+        <small v-if="v$.email.$invalid" class="helper-text invalid">Введите Email</small>
       </div>
       <div class="input-field">
         <input
             id="password"
             type="password"
-            class="validate"
+            v-model="password"
+            :class="{invalid: v$.password.$invalid}"
         >
         <label for="password">Пароль</label>
-        <small class="helper-text invalid">Password</small>
+        <small v-if="v$.password.$invalid" class="helper-text invalid">Введите пароль (мин. {{ v$.password.minLength.$params.min }} символов)</small>
       </div>
     </div>
     <div class="card-action">
@@ -34,15 +36,44 @@
 
       <p class="center">
         Нет аккаунта?
-        <a href="/">Зарегистрироваться</a>
+        <router-link to="/signup">Зарегистрироваться</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
+import {email, required, minLength} from '@vuelidate/validators'
+import {useVuelidate} from '@vuelidate/core'
 export default {
-  name: "Login.vue"
+  name: "Login.vue",
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  setup: () => ({v$: useVuelidate()}),
+  validations() {
+    return {
+      email: {email, required},
+      password: {required, minLength: minLength(8)}
+    }
+  },
+  methods: {
+    submit() {
+      if(this.v$.$invalid) {
+        this.v$.$touch()
+        return
+      }
+      const loginData = {
+        email: this.email,
+        password: this.password
+      }
+      console.log(loginData)
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
