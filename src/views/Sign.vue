@@ -84,7 +84,7 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       if(this.v$.$invalid) {
         this.v$.$touch()
         return
@@ -95,8 +95,10 @@ export default {
         password: this.password,
         name: this.name
       }
-      console.log(signData)
-      this.$router.push('/')
+      try {
+        await this.$store.dispatch('register', signData)
+        this.$router.push('/')
+      }catch (e){}
     }
   }
 }

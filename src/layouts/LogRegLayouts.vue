@@ -5,8 +5,20 @@
 </template>
 
 <script>
+import messages from '../utilites/queryParams'
 export default {
-  name: "LogReg.vue"
+  name: "LogReg.vue",
+  computed: {
+    error() {
+      return this.$store.getters.error
+    }
+  },
+  watch: {
+    error(fbErr) {
+      console.log(fbErr)
+      this.$message(messages[fbErr.code] || 'Что то пошло не так')
+    }
+  }
 }
 </script>
 
