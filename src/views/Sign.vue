@@ -1,36 +1,40 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submit">
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
         <input
             id="email"
             type="text"
+            v-model.trim="email"
+            :class="{invalid: (v$.email.$invalid)}"
         >
         <label for="email">Email</label>
-        <small class="helper-text invalid">Email</small>
+        <small v-if="v$.email.$invalid" class="helper-text invalid">Введите Email</small>
       </div>
       <div class="input-field">
         <input
             id="password"
             type="password"
-            class="validate"
+            v-model="password"
+            :class="{invalid: v$.password.$invalid}"
         >
         <label for="password">Пароль</label>
-        <small class="helper-text invalid">Password</small>
+        <small v-if="v$.password.$invalid" class="helper-text invalid">Введите пароль (мин. {{ v$.password.minLength.$params.min }} символов)</small>
       </div>
       <div class="input-field">
         <input
             id="name"
             type="text"
-            class="validate"
+            v-model="name"
+            :class="{invalid: v$.name.$invalid}"
         >
         <label for="name">Имя</label>
-        <small class="helper-text invalid">Name</small>
+        <small v-if="v$.name.$invalid" class="helper-text invalid">Введите имя</small>
       </div>
       <p>
         <label>
-          <input type="checkbox" />
+          <input type="checkbox" v-model="agree"/>
           <span>С правилами согласен</span>
         </label>
       </p>
@@ -48,15 +52,47 @@
 
       <p class="center">
         Уже есть аккаунт?
-        <a href="/">Войти!</a>
+        <router-link to="/login">Войти!</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
+import {useVuelidate} from "@vuelidate/core";
+import {email, minLength, required} from "@vuelidate/validators";
+
 export default {
-  name: "Sign"
+  name: "Sign",
+  data() {
+    return {
+      email: '',
+      password: '',
+      name: '',
+      agree: false
+    }
+  },
+  setup: () => ({v$: useVuelidate()}),
+  validations() {
+    return {
+      email: {email, required},
+      password: {required, minLength: minLength(8)},
+      name: {name, required},
+      agree: {
+        agree: v => v
+      }
+    }
+  },
+  methods: {
+    submit() {
+      if(this.v$.$invalid) {
+        this.v$.$touch()
+        return
+      }
+
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
