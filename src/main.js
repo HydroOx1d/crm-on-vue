@@ -8,13 +8,29 @@ import vueMessageUtils from './utilites/messages.plugin'
 import './registerServiceWorker'
 import "materialize-css/dist/js/materialize.min"
 
+import firebase from "firebase/compat"
 Vue.config.productionTip = false
 Vue.filter('dates',dateFilter)
 Vue.use(VueCompositionApi)
 Vue.use(vueMessageUtils)
-const app = new Vue({
-  router,
-  store,
-  render: h => h(App)
+
+firebase.initializeApp({
+  apiKey: "AIzaSyA06nJE47fDevNslW9rws9IwRIqPWYu6fc",
+  authDomain: "vue-crm-81482.firebaseapp.com",
+  projectId: "vue-crm-81482",
+  storageBucket: "vue-crm-81482.appspot.com",
+  messagingSenderId: "290146495861",
+  appId: "1:290146495861:web:3363d58b26600eb277773c",
+  measurementId: "G-332RLFCDBW"
 })
-app.$mount('#app')
+let app
+firebase.auth().onAuthStateChanged(() => {
+  if(!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})
+
