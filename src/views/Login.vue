@@ -45,12 +45,18 @@
 <script>
 import {email, required, minLength} from '@vuelidate/validators'
 import {useVuelidate} from '@vuelidate/core'
+import queryParams from "../utilites/queryParams"
 export default {
   name: "Login.vue",
   data() {
     return {
       email: '',
       password: ''
+    }
+  },
+  mounted() {
+    if(queryParams[this.$route.query.m]) {
+      this.$message(queryParams[this.$route.query.m])
     }
   },
   setup: () => ({v$: useVuelidate()}),

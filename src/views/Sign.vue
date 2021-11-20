@@ -90,6 +90,12 @@ export default {
         return
       }
 
+      const signData = {
+        email: this.email,
+        password: this.password,
+        name: this.name
+      }
+      console.log(signData)
       this.$router.push('/')
     }
   }
