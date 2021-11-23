@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="submit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">Авторизация</span>
       <div class="input-field">
         <input
             id="email"
@@ -36,7 +36,7 @@
 
       <p class="center">
         Нет аккаунта?
-        <router-link to="/signup">Зарегистрироваться</router-link>
+        <router-link to="/signup" class="link">Создать аккаунт</router-link>
       </p>
     </div>
   </form>
@@ -85,6 +85,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+.card
+  background-color: #111
+  &-title
+    color: #fff
+    font-weight: 500
+#email,#password
+  color: #ffffff
 
+.link
+  color: #64dd17!important
+  text-transform: capitalize!important
+.btn
+  background-color:#76b900
 </style>

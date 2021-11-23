@@ -1,22 +1,22 @@
 <template>
-  <nav class="navbar orange lighten-1">
+  <nav class="navbar light-green darken-3">
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('toggle')">
-          <i class="material-icons black-text">dehaze</i>
+          <i class="material-icons white-text">dehaze</i>
         </a>
-        <span class="black-text">{{dateNow | dates('datetime')}}</span>
+        <span class="white-text">{{dateNow | dates('datetime')}}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
         <li>
           <a
-              class="dropdown-trigger black-text"
+              class="dropdown-trigger white-text"
               href="#"
               data-target="dropdown"
               ref="dropdown"
           >
-            USER NAME
+            {{userName}}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -55,6 +55,11 @@ export default {
       this.$router.push('/login?m=logout')
     }
   },
+  computed: {
+    userName() {
+      return this.$store.getters.userInfo.email
+    }
+  },
   mounted() {
     this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
       constrainWidth: false
@@ -70,6 +75,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
 </style>

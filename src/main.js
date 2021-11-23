@@ -5,14 +5,18 @@ import dateFilter from './filters/filter.date'
 import router from './router'
 import store from './store'
 import vueMessageUtils from './utilites/messages.plugin'
+import Preloader from './components/Preloader'
+import currFilter from './filters/filter.currency'
 import './registerServiceWorker'
 import "materialize-css/dist/js/materialize.min"
 
 import firebase from "firebase/compat"
 Vue.config.productionTip = false
 Vue.filter('dates',dateFilter)
+Vue.filter('currency', currFilter)
 Vue.use(VueCompositionApi)
 Vue.use(vueMessageUtils)
+Vue.component('preloader', Preloader)
 
 firebase.initializeApp({
   apiKey: "AIzaSyA06nJE47fDevNslW9rws9IwRIqPWYu6fc",

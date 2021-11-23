@@ -46,13 +46,13 @@
             type="submit"
         >
           Зарегистрироваться
-          <i class="material-icons right">send</i>
+          <i class="material-icons right ">send</i>
         </button>
       </div>
 
       <p class="center">
         Уже есть аккаунт?
-        <router-link to="/login">Войти!</router-link>
+        <router-link to="/login" class="link">Войти!</router-link>
       </p>
     </div>
   </form>
@@ -104,6 +104,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+.card
+  background-color: #111
+  &-title
+    color: #fff
+    font-weight: 500
+#email,#password
+  color: #ffffff
 
+.link
+  color: #64dd17!important
+  text-transform: capitalize!important
+  
+.btn
+  background-color:#76b900
 </style>
