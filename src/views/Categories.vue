@@ -4,9 +4,10 @@
       <h3>Категории</h3>
     </div>
     <section>
-      <div class="row">
+      <preloader v-if="loading"/>
+      <div class="row" v-else>
         <CategoryCreate @createdCategory="createdCategory"/>
-        <CategoryEdit/>
+        <CategoryEdit :allCategories="allCategories" @update="updateCategory" :key="allCategories.length + updateCount"/>
       </div>
     </section>
   </div>
@@ -20,13 +21,24 @@ export default {
   components: {CategoryEdit, CategoryCreate},
   data() {
     return {
-      allCategories: []
+      allCategories: [],
+      loading: true,
+      updateCount: 0
     }
+  },
+  async mounted() {
+    this.allCategories = await this.$store.dispatch('getCategories')
+    this.loading = false
   },
   methods: {
     createdCategory(category) {
       this.allCategories.push(category)
-      console.log(this.allCategories)
+    },
+    updateCategory(category) {
+      const idx = this.allCategories.findIndex(cat => cat.id === category.id)
+      this.allCategories[idx].title = category.title
+      this.allCategories[idx].limit = category.limit
+      this.updateCount++
     }
   }
 }
